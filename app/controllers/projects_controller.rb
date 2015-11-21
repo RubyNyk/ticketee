@@ -3,7 +3,7 @@ class ProjectsController < ApplicationController
 	before_action :set_project, only: [:show, :edit, :update]
 
 	def index
-		@projects = Project.all		
+		@projects = policy_scope(Project)	
 	end	
 
 	def show
@@ -11,9 +11,11 @@ class ProjectsController < ApplicationController
 	end
 
 	def edit
+		authorize @project, :update?
 	end
 
 	def update
+		authorize @project, :update?
 		if @project.update(project_params)
 			flash[:notice] = "Project has been updated."
 			redirect_to @project
